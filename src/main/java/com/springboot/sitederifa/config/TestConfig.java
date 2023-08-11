@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Profile;
 
 import com.springboot.sitederifa.entities.Order;
 import com.springboot.sitederifa.entities.Raffle;
+import com.springboot.sitederifa.entities.RaffleStatus;
 import com.springboot.sitederifa.entities.User;
 import com.springboot.sitederifa.repositories.OrderRepository;
 import com.springboot.sitederifa.repositories.RaffleRepository;
@@ -30,8 +31,8 @@ public class TestConfig implements CommandLineRunner{
 	@Override
 	public void run(String... args) throws Exception {
 		
-		Raffle r1 = new Raffle(null, 2, "Raffle1", "Raffles", 4.50, "");
-		Raffle r2 = new Raffle(null, 5, "Raffle2", "Raffles", 4.50, "");
+		Raffle r1 = new Raffle(null, 2, "Raffle1", "Raffles", 4.50, "", RaffleStatus.OPEN);
+		Raffle r2 = new Raffle(null, 5, "Raffle2", "Raffles", 4.50, "", RaffleStatus.OPEN);
 		
 		raffleRepository.saveAll(Arrays.asList(r1,r2));
 		

@@ -23,16 +23,19 @@ public class Raffle implements Serializable {
 	private Double price;
 	private String imgUrl;
 	
+	private Integer raffleStatus;
+	
 	public Raffle() {
 	}
 
-	public Raffle(Long id, Integer quantity, String name, String description, Double price, String imgUrl) {
+	public Raffle(Long id, Integer quantity, String name, String description, Double price, String imgUrl,  RaffleStatus raffleStatus) {
 		this.id = id;
 		this.quantity = quantity;
 		this.name = name;
 		this.description = description;
 		this.price = price;
 		this.imgUrl = imgUrl;
+		setRaffleStatus(raffleStatus);
 	}
 
 	public Long getId() {
@@ -81,6 +84,16 @@ public class Raffle implements Serializable {
 
 	public void setImgUrl(String imgUrl) {
 		this.imgUrl = imgUrl;
+	}
+	
+	public RaffleStatus getRaffleStatus() {
+		return RaffleStatus.valueOf(raffleStatus);
+	}
+
+	public void setRaffleStatus(RaffleStatus raffleStatus) {
+		if (raffleStatus != null) {
+			this.raffleStatus = raffleStatus.getCode();
+		}
 	}
 
 	@Override
