@@ -1,9 +1,13 @@
 package com.springboot.sitederifa.entities;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.util.Locale;
 import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.springboot.sitederifa.entities.pk.OrderItemPK;
 
 import jakarta.persistence.EmbeddedId;
@@ -20,6 +24,15 @@ public class OrderItem implements Serializable {
 	
 	private Integer quantity;
 	private Double price;
+	
+	@JsonProperty("price")
+	public String getFormattedPrice() {
+		DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.getDefault());
+		symbols.setDecimalSeparator(',');
+		symbols.setGroupingSeparator('.');
+		DecimalFormat decimalFormat = new DecimalFormat("#,##0.00", symbols);
+		return "R$ " + decimalFormat.format(price);
+	}
 	
 	public OrderItem() {
 	}
@@ -67,6 +80,15 @@ public class OrderItem implements Serializable {
 	
 	public Double getSubTotal() {
 		return price * quantity;
+	}
+	
+	@JsonProperty("subTotal")
+	public String getFormattedSubTotal() {
+		DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.getDefault());
+		symbols.setDecimalSeparator(',');
+		symbols.setGroupingSeparator('.');
+		DecimalFormat decimalFormat = new DecimalFormat("#,##0.00", symbols);
+		return "R$ " + decimalFormat.format(getSubTotal());
 	}
 
 	@Override

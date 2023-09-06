@@ -1,10 +1,14 @@
 package com.springboot.sitederifa.entities;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.time.Instant;
+import java.util.Locale;
 import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.springboot.sitederifa.entities.enums.RaffleStatus;
 
 import jakarta.persistence.Entity;
@@ -26,6 +30,15 @@ public class Raffle implements Serializable {
 	private String description;
 	private Double price;
 	private String imgUrl;
+	
+	@JsonProperty("price")
+    public String getFormattedPrice() {
+        DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.getDefault());
+        symbols.setDecimalSeparator(',');
+        symbols.setGroupingSeparator('.');
+        DecimalFormat decimalFormat = new DecimalFormat("#,##0.00", symbols);
+        return "R$ " + decimalFormat.format(price);
+    }
 	
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "America/Sao_Paulo")
 	private Instant momentCreated;

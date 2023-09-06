@@ -1,12 +1,16 @@
 package com.springboot.sitederifa.entities;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.time.Instant;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -76,6 +80,15 @@ public class Order implements Serializable{
 	public Double getTotal() {
 		return items.stream().mapToDouble(OrderItem::getSubTotal).sum();
 	}
+	
+	@JsonProperty("total")
+    public String getFormattedTotal() {
+        DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.getDefault());
+        symbols.setDecimalSeparator(',');
+        symbols.setGroupingSeparator('.');
+        DecimalFormat decimalFormat = new DecimalFormat("#,##0.00", symbols);
+        return "R$ " + decimalFormat.format(getTotal());
+    }
 
 	@Override
 	public int hashCode() {
