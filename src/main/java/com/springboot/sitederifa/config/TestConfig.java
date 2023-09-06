@@ -7,13 +7,15 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
+import com.springboot.sitederifa.entities.Client;
 import com.springboot.sitederifa.entities.Order;
+import com.springboot.sitederifa.entities.OrderItem;
 import com.springboot.sitederifa.entities.Raffle;
 import com.springboot.sitederifa.entities.RaffleStatus;
-import com.springboot.sitederifa.entities.Client;
+import com.springboot.sitederifa.repositories.ClientRepository;
+import com.springboot.sitederifa.repositories.OrderItemRepository;
 import com.springboot.sitederifa.repositories.OrderRepository;
 import com.springboot.sitederifa.repositories.RaffleRepository;
-import com.springboot.sitederifa.repositories.ClientRepository;
 
 @Configuration
 @Profile("test")
@@ -27,6 +29,9 @@ public class TestConfig implements CommandLineRunner{
 	
 	@Autowired
 	private OrderRepository orderRepository;
+	
+	@Autowired
+	private OrderItemRepository orderItemRepository;
 
 	@Override
 	public void run(String... args) throws Exception {
@@ -44,6 +49,11 @@ public class TestConfig implements CommandLineRunner{
 		
 		userRepository.saveAll(Arrays.asList(u1,u2));
 		orderRepository.saveAll(Arrays.asList(o1, o2));
+		
+		OrderItem oi1 = new OrderItem(o1, r1, 4, r1.getPrice());
+		OrderItem oi2 = new OrderItem(o1, r2, 1, r2.getPrice());
+		
+		orderItemRepository.saveAll(Arrays.asList(oi1, oi2));
 	}
 
 }
