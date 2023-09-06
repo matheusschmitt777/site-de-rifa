@@ -10,10 +10,10 @@ import org.springframework.context.annotation.Profile;
 import com.springboot.sitederifa.entities.Order;
 import com.springboot.sitederifa.entities.Raffle;
 import com.springboot.sitederifa.entities.RaffleStatus;
-import com.springboot.sitederifa.entities.User;
+import com.springboot.sitederifa.entities.Client;
 import com.springboot.sitederifa.repositories.OrderRepository;
 import com.springboot.sitederifa.repositories.RaffleRepository;
-import com.springboot.sitederifa.repositories.UserRepository;
+import com.springboot.sitederifa.repositories.ClientRepository;
 
 @Configuration
 @Profile("test")
@@ -23,7 +23,7 @@ public class TestConfig implements CommandLineRunner{
 	private RaffleRepository raffleRepository;
 	
 	@Autowired
-	private UserRepository userRepository;
+	private ClientRepository userRepository;
 	
 	@Autowired
 	private OrderRepository orderRepository;
@@ -36,8 +36,8 @@ public class TestConfig implements CommandLineRunner{
 		
 		raffleRepository.saveAll(Arrays.asList(r1,r2));
 		
-		User u1 = new User(null, "Isabelle", "9999999", "");
-		User u2 = new User(null, "Matheus", "9999999", "");
+		Client u1 = new Client(null, "Isabelle", "9999999", "");
+		Client u2 = new Client(null, "Matheus", "9999999", "");
 		
 		Order o1 = new Order(null, u1);
 		Order o2 = new Order(null, u2);

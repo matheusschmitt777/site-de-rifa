@@ -9,25 +9,25 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.springboot.sitederifa.entities.User;
-import com.springboot.sitederifa.services.UserService;
+import com.springboot.sitederifa.entities.Client;
+import com.springboot.sitederifa.services.ClientService;
 
 @RestController
-@RequestMapping(value = "/users")
-public class UserResource {
+@RequestMapping(value = "/clients")
+public class ClientResource {
 	
 	@Autowired
-	private UserService userService;
+	private ClientService userService;
 	
 	@GetMapping
-	public ResponseEntity<List<User>> findAll(){
-		List<User> list = userService.findAll();
+	public ResponseEntity<List<Client>> findAll(){
+		List<Client> list = userService.findAll();
 		return ResponseEntity.ok().body(list);
 	}
 	
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<User> findById(@PathVariable Long id) {
-		User obj = userService.findById(id);
+	public ResponseEntity<Client> findById(@PathVariable Long id) {
+		Client obj = userService.findById(id);
 		return ResponseEntity.ok().body(obj);
 	}
 }

@@ -22,12 +22,12 @@ public class Order implements Serializable{
 	
 	@ManyToOne
 	@JoinColumn(name = "client_id")
-	private User client;
+	private Client client;
 	
 	public Order() {
 	}
 
-	public Order(Long id, User client) {
+	public Order(Long id, Client client) {
 		this.id = id;
 		this.client = client;
 	}
@@ -40,11 +40,11 @@ public class Order implements Serializable{
 		this.id = id;
 	}
 
-	public User getClient() {
+	public Client getClient() {
 		return client;
 	}
 
-	public void setClient(User client) {
+	public void setClient(Client client) {
 		this.client = client;
 	}
 

@@ -15,8 +15,8 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "tb_user")
-public class User implements Serializable {
+@Table(name = "tb_client")
+public class Client implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Id
@@ -30,10 +30,10 @@ public class User implements Serializable {
 	@OneToMany(mappedBy = "client")
 	private List<Order> orders = new ArrayList<>();
 	
-	public User() {
+	public Client() {
 	}
 
-	public User(Long id, String name, String phone, String file) {
+	public Client(Long id, String name, String phone, String file) {
 		this.id = id;
 		this.name = name;
 		this.phone = phone;
@@ -89,7 +89,7 @@ public class User implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		User other = (User) obj;
+		Client other = (Client) obj;
 		return Objects.equals(id, other.id);
 	}
 }
