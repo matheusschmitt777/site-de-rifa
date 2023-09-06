@@ -1,9 +1,12 @@
 package com.springboot.sitederifa.entities;
 
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -23,6 +26,9 @@ public class Order implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "America/Sao_Paulo")
+	private Instant moment;
+	
 	@ManyToOne
 	@JoinColumn(name = "client_id")
 	private Client client;
@@ -33,8 +39,9 @@ public class Order implements Serializable{
 	public Order() {
 	}
 
-	public Order(Long id, Client client) {
+	public Order(Long id, Instant moment, Client client) {
 		this.id = id;
+		this.moment = moment;
 		this.client = client;
 	}
 
@@ -44,6 +51,14 @@ public class Order implements Serializable{
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+	
+	public Instant getMoment() {
+		return moment;
+	}
+
+	public void setMoment(Instant moment) {
+		this.moment = moment;
 	}
 
 	public Client getClient() {

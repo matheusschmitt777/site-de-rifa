@@ -1,4 +1,4 @@
-package com.springboot.sitederifa.entities;
+package com.springboot.sitederifa.entities.enums;
 
 public enum RaffleStatus {
 

@@ -1,11 +1,14 @@
 package com.springboot.sitederifa.entities;
 
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.springboot.sitederifa.entities.enums.ClientStatus;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -26,6 +29,11 @@ public class Client implements Serializable {
 	private String phone;
 	private String file;
 	
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "America/Sao_Paulo")
+	private Instant momentCreated;
+	
+	private Integer clientStatus;
+	
 	@JsonIgnore
 	@OneToMany(mappedBy = "client")
 	private List<Order> orders = new ArrayList<>();
@@ -33,11 +41,13 @@ public class Client implements Serializable {
 	public Client() {
 	}
 
-	public Client(Long id, String name, String phone, String file) {
+	public Client(Long id, String name, String phone, String file, Instant momentCreated, ClientStatus clientStatus) {
 		this.id = id;
 		this.name = name;
 		this.phone = phone;
 		this.file = file;
+		this.momentCreated = momentCreated;
+		setClientStatus(clientStatus);
 	}
 
 	public Long getId() {
@@ -63,6 +73,7 @@ public class Client implements Serializable {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
+	
 
 	public String getFile() {
 		return file;
@@ -70,6 +81,24 @@ public class Client implements Serializable {
 
 	public void setFile(String file) {
 		this.file = file;
+	}
+	
+	public Instant getMomentCreated() {
+		return momentCreated;
+	}
+
+	public void setMomentCreated(Instant momentCreated) {
+		this.momentCreated = momentCreated;
+	}
+	
+	public ClientStatus getClientStatus() {
+		return ClientStatus.valueOf(clientStatus);
+	}
+
+	public void setClientStatus(ClientStatus clientStatus) {
+		if (clientStatus != null) {
+			this.clientStatus = clientStatus.getCode();
+		}
 	}
 
 	public List<Order> getOrders() {

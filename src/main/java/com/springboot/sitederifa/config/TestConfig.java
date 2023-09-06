@@ -1,5 +1,6 @@
 package com.springboot.sitederifa.config;
 
+import java.time.Instant;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,8 @@ import com.springboot.sitederifa.entities.Client;
 import com.springboot.sitederifa.entities.Order;
 import com.springboot.sitederifa.entities.OrderItem;
 import com.springboot.sitederifa.entities.Raffle;
-import com.springboot.sitederifa.entities.RaffleStatus;
+import com.springboot.sitederifa.entities.enums.ClientStatus;
+import com.springboot.sitederifa.entities.enums.RaffleStatus;
 import com.springboot.sitederifa.repositories.ClientRepository;
 import com.springboot.sitederifa.repositories.OrderItemRepository;
 import com.springboot.sitederifa.repositories.OrderRepository;
@@ -36,16 +38,16 @@ public class TestConfig implements CommandLineRunner{
 	@Override
 	public void run(String... args) throws Exception {
 		
-		Raffle r1 = new Raffle(null, 2, "Raffle1", "Raffles", 4.50, "", RaffleStatus.OPEN);
-		Raffle r2 = new Raffle(null, 5, "Raffle2", "Raffles", 4.50, "", RaffleStatus.OPEN);
+		Raffle r1 = new Raffle(null, 2, "Raffle1", "Raffles", 4.50, "", Instant.now(), RaffleStatus.OPEN);
+		Raffle r2 = new Raffle(null, 5, "Raffle2", "Raffles", 4.50, "", Instant.now(), RaffleStatus.OPEN);
 		
 		raffleRepository.saveAll(Arrays.asList(r1,r2));
 		
-		Client u1 = new Client(null, "Isabelle", "9999999", "");
-		Client u2 = new Client(null, "Matheus", "9999999", "");
+		Client u1 = new Client(null, "Isabelle", "9999999", "", Instant.now(), ClientStatus.TRUE);
+		Client u2 = new Client(null, "Matheus", "9999999", "", Instant.now(), ClientStatus.TRUE);
 		
-		Order o1 = new Order(null, u1);
-		Order o2 = new Order(null, u2);
+		Order o1 = new Order(null, Instant.now(), u1);
+		Order o2 = new Order(null, Instant.now(), u2);
 		
 		userRepository.saveAll(Arrays.asList(u1,u2));
 		orderRepository.saveAll(Arrays.asList(o1, o2));

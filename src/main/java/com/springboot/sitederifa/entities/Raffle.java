@@ -1,7 +1,11 @@
 package com.springboot.sitederifa.entities;
 
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.Objects;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.springboot.sitederifa.entities.enums.RaffleStatus;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -23,18 +27,22 @@ public class Raffle implements Serializable {
 	private Double price;
 	private String imgUrl;
 	
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "America/Sao_Paulo")
+	private Instant momentCreated;
+	
 	private Integer raffleStatus;
 	
 	public Raffle() {
 	}
 
-	public Raffle(Long id, Integer quantity, String name, String description, Double price, String imgUrl,  RaffleStatus raffleStatus) {
+	public Raffle(Long id, Integer quantity, String name, String description, Double price, String imgUrl, Instant momentCreated,  RaffleStatus raffleStatus) {
 		this.id = id;
 		this.quantity = quantity;
 		this.name = name;
 		this.description = description;
 		this.price = price;
 		this.imgUrl = imgUrl;
+		this.momentCreated = momentCreated;
 		setRaffleStatus(raffleStatus);
 	}
 
@@ -84,6 +92,14 @@ public class Raffle implements Serializable {
 
 	public void setImgUrl(String imgUrl) {
 		this.imgUrl = imgUrl;
+	}
+	
+	public Instant getMomentCreated() {
+		return momentCreated;
+	}
+
+	public void setMomentCreated(Instant momentCreated) {
+		this.momentCreated = momentCreated;
 	}
 	
 	public RaffleStatus getRaffleStatus() {
