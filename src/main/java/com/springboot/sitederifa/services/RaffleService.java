@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.springboot.sitederifa.entities.Raffle;
 import com.springboot.sitederifa.repositories.RaffleRepository;
@@ -14,7 +15,6 @@ import com.springboot.sitederifa.services.exceptions.DatabaseException;
 import com.springboot.sitederifa.services.exceptions.ResourceNotFoundException;
 
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.transaction.Transactional;
 
 @Service
 public class RaffleService {
