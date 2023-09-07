@@ -22,10 +22,12 @@ public class ClientService {
 	@Autowired
 	private ClientRepository clientRepository;
 	
+	@Transactional
 	public List<Client> findAll() {
 		return clientRepository.findAll();
 	}
 	
+	@Transactional
 	public Client findById(Long id) {
 		Optional<Client> obj = clientRepository.findById(id);
 		return obj.get();
