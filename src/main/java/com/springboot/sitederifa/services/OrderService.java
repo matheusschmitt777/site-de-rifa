@@ -3,6 +3,8 @@ package com.springboot.sitederifa.services;
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,6 +30,9 @@ public class OrderService {
 	
 	@Autowired
 	private OrderItemRepository orderItemRepository;
+	
+	@Autowired
+	private RaffleNumberService raffleNumberService;
 
 	@Transactional
 	public List<Order> findAll() {
@@ -55,6 +60,10 @@ public class OrderService {
 	public void deleteOrder(Long orderId) {
 	    Order order = orderRepository.findById(orderId)
 	            .orElseThrow(() -> new ResourceNotFoundException(orderId));
+	    Set<Integer> generatedNumbers = order.getItems().stream()
+	            .flatMap(item -> item.getGeneratedNumbers().stream())
+	            .collect(Collectors.toSet());
+	    raffleNumberService.removeGeneratedNumbers(orderId, generatedNumbers);
 	    for (OrderItem item : order.getItems()) {
 	        orderItemRepository.delete(item);
 	    }

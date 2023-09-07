@@ -41,10 +41,10 @@ public class OrderItemResource {
 
 		OrderItemDTO responseDto = new OrderItemDTO();
 		responseDto.setId(newOrderItem.getOrder().getId());
+		responseDto.setGeneratedNumbers(newOrderItem.getGeneratedNumbers());
 
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-				.buildAndExpand(newOrderItem.getOrder().getId())
-				.toUri();
+				.buildAndExpand(newOrderItem.getOrder().getId()).toUri();
 
 		return ResponseEntity.created(location).body(responseDto);
 	}

@@ -3,8 +3,10 @@ package com.springboot.sitederifa.entities;
 import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.util.HashSet;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -18,13 +20,13 @@ import jakarta.persistence.Table;
 @Table(name = "tb_order_item")
 public class OrderItem implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	@EmbeddedId
 	private OrderItemPK id = new OrderItemPK();
-	
+
 	private Integer quantity;
 	private Double price;
-	
+
 	@JsonProperty("price")
 	public String getFormattedPrice() {
 		DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.getDefault());
@@ -33,18 +35,20 @@ public class OrderItem implements Serializable {
 		DecimalFormat decimalFormat = new DecimalFormat("#,##0.00", symbols);
 		return "R$ " + decimalFormat.format(price);
 	}
-	
+
+	private Set<Integer> generatedNumbers = new HashSet<>();
+
 	public OrderItem() {
 	}
-	
-	public OrderItem(Order order, Raffle raffle, Integer quantity,  Double price) {
+
+	public OrderItem(Order order, Raffle raffle, Integer quantity, Double price) {
 		super();
 		id.setOrder(order);
 		id.setRaffle(raffle);
 		this.quantity = quantity;
 		this.price = price;
 	}
-	
+
 	@JsonIgnore
 	public Order getOrder() {
 		return id.getOrder();
@@ -61,7 +65,7 @@ public class OrderItem implements Serializable {
 	public void setRaffle(Raffle raffle) {
 		id.setRaffle(raffle);
 	}
-	
+
 	public Integer getQuantity() {
 		return quantity;
 	}
@@ -77,11 +81,11 @@ public class OrderItem implements Serializable {
 	public void setPrice(Double price) {
 		this.price = price;
 	}
-	
+
 	public Double getSubTotal() {
 		return price * quantity;
 	}
-	
+
 	@JsonProperty("subTotal")
 	public String getFormattedSubTotal() {
 		DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.getDefault());
@@ -89,6 +93,14 @@ public class OrderItem implements Serializable {
 		symbols.setGroupingSeparator('.');
 		DecimalFormat decimalFormat = new DecimalFormat("#,##0.00", symbols);
 		return "R$ " + decimalFormat.format(getSubTotal());
+	}
+
+	public Set<Integer> getGeneratedNumbers() {
+		return generatedNumbers;
+	}
+
+	public void setGeneratedNumbers(Set<Integer> generatedNumbers) {
+		this.generatedNumbers = generatedNumbers;
 	}
 
 	@Override

@@ -37,6 +37,12 @@ public class RaffleResource {
 		return ResponseEntity.ok().body(obj);
 	}
 	
+	@GetMapping(value = "/{id}/remaining")
+	public ResponseEntity<Long> getRemainingRaffles(@PathVariable Long id) {
+	    Long remainingRaffles = raffleservice.calculateRemainingRaffles(id);
+	    return ResponseEntity.ok(remainingRaffles);
+	}
+	
 	@PostMapping
 	public ResponseEntity<Raffle> insert(@RequestBody Raffle obj) {
 		obj = raffleservice.insert(obj);
