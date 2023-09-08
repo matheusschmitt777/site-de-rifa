@@ -4,7 +4,6 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,10 +26,10 @@ public class OrderService {
 
 	@Autowired
 	private ClientRepository userRepository;
-	
+
 	@Autowired
 	private OrderItemRepository orderItemRepository;
-	
+
 	@Autowired
 	private RaffleNumberService raffleNumberService;
 
@@ -46,27 +45,25 @@ public class OrderService {
 	}
 
 	@Transactional
-    public Order createOrder(OrderDTO orderDTO) {
-        Client client = userRepository.findById(orderDTO.getClientId())
-                .orElseThrow(() -> new ResourceNotFoundException(orderDTO.getClientId()));
+	public Order createOrder(OrderDTO orderDTO) {
+		Client client = userRepository.findById(orderDTO.getClientId())
+				.orElseThrow(() -> new ResourceNotFoundException(orderDTO.getClientId()));
 
-        Order newOrder = new Order();
-        newOrder.setClient(client);
-        newOrder.setMoment(Instant.now());
+		Order newOrder = new Order();
+		newOrder.setClient(client);
+		newOrder.setMoment(Instant.now());
 
-        return orderRepository.save(newOrder);
-    }
-	
-	public void deleteOrder(Long orderId) {
-	    Order order = orderRepository.findById(orderId)
-	            .orElseThrow(() -> new ResourceNotFoundException(orderId));
-	    Set<Integer> generatedNumbers = order.getItems().stream()
-	            .flatMap(item -> item.getGeneratedNumbers().stream())
-	            .collect(Collectors.toSet());
-	    raffleNumberService.removeGeneratedNumbers(orderId, generatedNumbers);
-	    for (OrderItem item : order.getItems()) {
-	        orderItemRepository.delete(item);
-	    }
-	    orderRepository.delete(order);
+		return orderRepository.save(newOrder);
+	}
+
+	@Transactional
+	public void delete(Long id) {
+		Order order = findById(id);
+		Set<OrderItem> items = order.getItems();
+		for (OrderItem item : items) {
+			raffleNumberService.deleteRaffleNumbers(item);
+		}
+		orderItemRepository.deleteAll(items);
+		orderRepository.delete(order);
 	}
 }

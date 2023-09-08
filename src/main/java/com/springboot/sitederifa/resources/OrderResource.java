@@ -49,7 +49,7 @@ public class OrderResource {
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> deleteOrder(@PathVariable Long id) {
-		orderService.deleteOrder(id);
+		orderService.delete(id);
 		return ResponseEntity.noContent().build();
 	}
 }
